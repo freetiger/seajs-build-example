@@ -1,0 +1,11 @@
+@import "common/core.scss";
+
+$color : #FFF;
+
+h1 {
+    color : $color;
+}
+
+.sass_test1, .sass_test2 {
+    color : $color
+}

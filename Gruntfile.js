@@ -44,6 +44,21 @@ module.exports = function (grunt){
                 ]
             }
         },
+        // compile sass to css
+        sass : {
+            options : {
+                style : "compressed"
+            },
+            dist : {
+                files : [{
+                    expand : true,
+                    cwd : "app/style",
+                    src : ["*.scss", "*/*.scss"],
+                    dest : "static/style",
+                    ext : ".css"
+                }]
+            }
+        },
         // minify files
         uglify : {
             js : {
@@ -58,7 +73,7 @@ module.exports = function (grunt){
                 ]
             }
         },
-        // clear file and folders
+        // clean file and folders
         clean : {
             spm : ["tmp"]
         }
@@ -66,7 +81,9 @@ module.exports = function (grunt){
     grunt.loadNpmTasks('grunt-cmd-transport');
     grunt.loadNpmTasks('grunt-cmd-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('build', ['transport', 'concat', 'uglify', 'clean']);
+    grunt.registerTask('css', ['sass']);
 };
