@@ -1,6 +1,6 @@
 module.exports = function (grunt){
     grunt.initConfig({
-        // load config from package.js
+        // load config from package.json
         pkg : grunt.file.readJSON("package.json"),
         transport : {
             options : {
