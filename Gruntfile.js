@@ -87,6 +87,13 @@ module.exports = function (grunt){
                 "app/js/*.js",
                 "app/js/*/*.js"
             ]
+        },
+        // run task when file changed
+        watch : {
+            sass : {
+                files : ["app/style/*.scss", "app/style/*/*.scss"],
+                tasks : ["sass"],
+            }
         }
     });
     grunt.loadNpmTasks('grunt-cmd-transport');
@@ -95,8 +102,10 @@ module.exports = function (grunt){
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('build_js', ['transport', 'concat', 'uglify', 'clean']);
-    grunt.registerTask('build_css', ['sass']);
+    grunt.registerTask('js_build', ['transport', 'concat', 'uglify', 'clean']);
+    grunt.registerTask('css_build', ['sass']);
     grunt.registerTask('js_hint', ['jshint']);
+    grunt.registerTask('css_watch', ['watch']);
 };
