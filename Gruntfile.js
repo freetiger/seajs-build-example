@@ -76,6 +76,17 @@ module.exports = function (grunt){
         // clean file and folders
         clean : {
             spm : ["tmp"]
+        },
+        // jshint, check js code quality
+        jshint : {
+            options: {
+                // load config from .jshintrc
+                // jshintrc : ".jshintrc"
+            },
+            all : [
+                "app/js/*.js",
+                "app/js/*/*.js"
+            ]
         }
     });
     grunt.loadNpmTasks('grunt-cmd-transport');
@@ -83,7 +94,9 @@ module.exports = function (grunt){
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('build', ['transport', 'concat', 'uglify', 'clean']);
-    grunt.registerTask('css', ['sass']);
+    grunt.registerTask('build_js', ['transport', 'concat', 'uglify', 'clean']);
+    grunt.registerTask('build_css', ['sass']);
+    grunt.registerTask('js_hint', ['jshint']);
 };
