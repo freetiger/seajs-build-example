@@ -137,7 +137,8 @@ module.exports = function (grunt){
         },
         // clean file and folders
         clean : {
-            spm : ["tmp"]
+            js : ["tmp", "sea-modules/lvmama"],
+            css : ["static/style"]
         },
         // jshint, check js code quality
         jshint : {
@@ -227,4 +228,6 @@ module.exports = function (grunt){
     grunt.registerTask('js_hint', ['jshint']);
     grunt.registerTask('css_watch', ['watch:sass']);
     grunt.registerTask('js_watch', ['watch:js']);
+    grunt.registerTask('js_reset', ['clean:js', 'transport', 'concat', 'uglify']);
+    grunt.registerTask('css_reset', ['clean:css', 'sass']);
 };

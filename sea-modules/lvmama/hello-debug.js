@@ -1,1 +1,0 @@
-define("lvmama/hello-debug",["jquery/jquery/1.10.1/jquery-debug.js","./core/core-debug"],function(a){{var b=a("jquery/jquery/1.10.1/jquery-debug.js");a("./core/core-debug")}b("body").css("background","red")});
