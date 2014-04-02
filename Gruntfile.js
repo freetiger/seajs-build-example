@@ -1,7 +1,7 @@
 module.exports = function (grunt){
-    var css_build_src_path = "app/style/",
+    var css_build_src_path = "static_src/style/",
         css_build_target_path = "static/style/",
-        js_build_src_path = "app/js/",
+        js_build_src_path = "static_src/js/",
         js_transport_target_path = "tmp/transport_js/",
         js_concat_target_path = "tmp/concat_js/",
         js_build_target_path = "sea-modules/lvmama/";
@@ -12,9 +12,10 @@ module.exports = function (grunt){
         }
     }
     var is_string = is_type("String");
+
     var get_target_file_info = function (src_path, step){
         if(!is_string(src_path)){
-            throw new Error("data type error");
+            throw new Error("src_path value shoud be string");
         }
         var split_ext,
             ext,
@@ -23,10 +24,21 @@ module.exports = function (grunt){
             real_path;
         split_ext = src_path.split(".");
         switch(split_ext[(split_ext.length - 1)]){
+            case "sass":
             case "scss":
                 // replace path and ext
                 path = src_path.replace(css_build_src_path, css_build_target_path);
-                real_path = path.replace(/scss$/, "css");
+                ext = path.split(".").pop();
+                switch(ext){
+                    case "scss":
+                        real_path = path.replace(/scss$/, "css");
+                        break;
+                    case "sass":
+                        real_path = path.replace(/sass$/, "css");
+                        break;
+                    default : 
+                        throw new Error("unavailable style file type");
+                }
                 break;
             case "js":
                 switch(step){
@@ -94,7 +106,7 @@ module.exports = function (grunt){
                 ]
             }
         },
-        // compile sass to css
+        // compile scss || sass to css
         sass : {
             options : {
                 style : "compressed"
@@ -103,11 +115,10 @@ module.exports = function (grunt){
                 files : [{
                     expand : true,
                     cwd : css_build_src_path,
-                    src : ["*.scss", "*/*.scss"],
+                    src : ["*.scss", "*.sass", "*/*.scss", "*/*.sass"],
                     dest : css_build_target_path,
                     ext : ".css"
                 }]
-
             }
         },
         // minify files
@@ -135,21 +146,21 @@ module.exports = function (grunt){
                 // jshintrc : ".jshintrc"
             },
             all : [
-                "app/js/*.js",
-                "app/js/*/*.js"
+                "static_src/js/*.js",
+                "static_src/js/*/*.js"
             ]
         },
         // run task when file changed
         watch : {
             sass : {
-                files : ["app/style/*.scss", "app/style/*/*.scss"],
+                files : ["static_src/style/*.scss", "static_src/style/*.sass", "static_src/style/*/*.scss", "static_src/style/*/*.sass"],
                 tasks : ["sass"],
                 options : {
                     spawn : false // set this value false, so we can dynamic set task config when grunt trigger event
                 }
             },
             js : {
-                files : ["app/js/*.js", "app/js/*/*.js"],
+                files : ["static_src/js/*.js", "static_src/js/*/*.js"],
                 tasks : ['transport', 'concat', 'uglify'],
                 options : {
                     spawn : false
@@ -160,8 +171,12 @@ module.exports = function (grunt){
 
     // small && smart
     grunt.event.on("watch", function (action, filepath, target){
-        var sass_config = {},
-            transport_config = {},
+        var file_name = filepath.match(/[^\\/]+\.[^\\/]+$/)[0],
+            transport_config,
+            transport_path,
+            concat_path,
+            uglify_path,
+            sass_config = {},
             concat_config = {},
             uglify_config = {};
 
@@ -172,25 +187,27 @@ module.exports = function (grunt){
                 grunt.config("sass.dist.files", sass_config);
                 break;
             case "js":
-                // target file : source file
-                // get file name
-                var file_name = filepath.match(/[^\\/]+\.[^\\/]+$/)[0];
-                var _temp = [
+                transport_config = [
                     {
-                        expand : true, // visit {{http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically}} for more information
-                        cwd : js_build_src_path, // change work directory
-                        src : [file_name], // cmd source file
-                        dest : js_transport_target_path // transport cmd module to this directory
+                        expand : true,
+                        cwd : js_build_src_path,
+                        src : [file_name],
+                        dest : js_transport_target_path
                     }
                 ]
-                grunt.config("transport.js.files", _temp);
 
-                concat_config[get_target_file_info(get_target_file_info(filepath, "transport"), "concat")] = get_target_file_info(filepath, "transport");
+                transport_path = get_target_file_info(filepath, "transport");
+                concat_path = get_target_file_info(transport_path, "concat");
+                uglify_path = get_target_file_info(concat_path, "uglify");
+
+                grunt.config("transport.js.files", transport_config);
+
+                concat_config[concat_path] = transport_path;
                 grunt.config("concat.js.files", concat_config);
 
-                uglify_config[get_target_file_info(get_target_file_info(get_target_file_info(filepath, "transport"), "concat"), "uglify")] = get_target_file_info(get_target_file_info(filepath, "transport"), "concat");
+                uglify_config[uglify_path] = concat_path;
                 grunt.config("uglify.js.files", uglify_config);
-                //grunt.config("sass.dist.files", temp_config);
+
                 break;
             default :
                 return;

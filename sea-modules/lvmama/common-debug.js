@@ -1,1 +1,0 @@
-define("lvmama/common-debug",[],function(a,b,c){var d={user:"Hou",age:"34"};c.exports=d});
