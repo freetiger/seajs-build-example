@@ -223,11 +223,9 @@ module.exports = function (grunt){
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('js_build', ['transport', 'concat', 'uglify']);
-    grunt.registerTask('css_build', ['sass']);
+    grunt.registerTask('js_build', ['clean:js', 'transport', 'concat', 'uglify']);
+    grunt.registerTask('css_build', ['clean:css', 'sass']);
     grunt.registerTask('js_hint', ['jshint']);
     grunt.registerTask('css_watch', ['watch:sass']);
     grunt.registerTask('js_watch', ['watch:js']);
-    grunt.registerTask('js_reset', ['clean:js', 'transport', 'concat', 'uglify']);
-    grunt.registerTask('css_reset', ['clean:css', 'sass']);
 };
