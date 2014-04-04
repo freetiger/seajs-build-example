@@ -58,4 +58,4 @@ grunt css_watch
 grunt js_watch
 :   监控`static_src/js`目录文件活动(修改||新建)自动增量构建活动文件，**非全量构建**。
 
-**注意：移动或删除`static_src`目录下的代码后请手动执行命令`grunt js_reset`或`grunt css_reset`手动将代码全量构建一遍**
+**注意：移动或删除`static_src`目录下的代码后请手动执行命令`grunt js_build`或`grunt css_build`手动将代码全量构建一遍**
