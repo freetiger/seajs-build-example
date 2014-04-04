@@ -143,8 +143,8 @@ module.exports = function (grunt){
         // jshint, check js code quality
         jshint : {
             options: {
-                // load config from .jshintrc
-                // jshintrc : ".jshintrc"
+                // load config from .jshintrc, to get more config info please visit {{https://github.com/mytcer/jshint-docs-cn}}
+                jshintrc : ".jshintrc"
             },
             all : [
                 "static_src/js/*.js",
