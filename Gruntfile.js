@@ -1,6 +1,6 @@
 module.exports = function (grunt){
-    var css_build_src_path = "static_src/style/",
-        css_build_target_path = "static/style/",
+    var css_build_src_path = "static_src/style/lvmama/",
+        css_build_target_path = "static/style/lvmama/",
         js_build_src_path = "static_src/js/",
         js_transport_target_path = "tmp/transport_js/",
         js_concat_target_path = "tmp/concat_js/",
@@ -69,7 +69,11 @@ module.exports = function (grunt){
                 paths : ["sea-modules"],
                 // config sea-module alias
                 alias : {
-                    "$" : "jquery/jquery/1.10.1/jquery.js"
+                    "$" : "jquery/jquery/1.10.1/jquery.js",
+                    "Backbone" : "gallery/backbone/1.1.2/backbone.js",
+                    "Mustache" : "gallery/mustache/0.8.1/mustache.js",
+                    "_" : "gallery/underscore/1.6.0/underscore.js",
+                    "localStorage" : "willkan/backbone-localStorage/1.1.6/backbone.localStorage.js"
                 }
             },
             // target
@@ -138,7 +142,7 @@ module.exports = function (grunt){
         // clean file and folders
         clean : {
             js : ["tmp", "sea-modules/lvmama"],
-            css : ["static/style"]
+            css : ["static/style/lvmama"]
         },
         // jshint, check js code quality
         jshint : {
