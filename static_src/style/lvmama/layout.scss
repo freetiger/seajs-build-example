@@ -1,0 +1,36 @@
+/*!
+lvmama.ued Copyright © 2014 
+*/
+$layout_width : 730px;
+$default_margin : 10px;
+$default_padding : 10px;
+$default_border_item : 1px solid #CCC;
+
+// 定义可重用的代码块，即宏，宏可以设置参数。
+@mixin center {
+    width : $layout_width;
+    margin : 0 auto;
+}
+@mixin font($font_size : 12px, $font_color : #000) {
+    font-size : $font_size;
+    color : $font_color;
+}
+.main {
+    // 调用宏
+    @include center;
+    @include font(14px);
+}
+.header {
+    border-bottom : $default_border_item;
+    margin-bottom : $default_margin;
+}
+.footer {
+    margin-top : $default_margin;
+    padding-top : $default_padding;
+    border-top : $default_border_item;
+    a {
+        &:hover {
+            font-size : 16px;
+        }
+    }
+}

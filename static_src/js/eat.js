@@ -1,10 +1,9 @@
-define(function(require) {
+define(function(require, exports) {
     var $ = require("$"),
         _ = require("_"),
         Backbone = require("Backbone"),
         Mustache = require("Mustache"),
         Core = require("./core");
-    require("localStorage");
 
     var Views = {},
         Collections = {},
