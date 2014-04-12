@@ -1,4 +1,4 @@
-define(function(require, exports) {
+define(function(require) {
     var $ = require("$"),
         _ = require("_"),
         Backbone = require("Backbone"),
