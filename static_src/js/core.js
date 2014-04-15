@@ -1,6 +1,7 @@
 define(function(require) {
     var Backbone = require("Backbone");
     require("localStorage");
+    console.info(document);
 
     var Collections = {};
 
