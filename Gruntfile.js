@@ -67,6 +67,7 @@ module.exports = function (grunt){
         transport : {
             options : {
                 paths : ["sea-modules"],
+                debug : false,
                 // config sea-module alias
                 alias : {
                     "$" : "jquery/jquery/1.10.1/jquery.js",
